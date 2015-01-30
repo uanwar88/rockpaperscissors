@@ -20,8 +20,8 @@ class Player
     @score = score
   end
   
-  def make_move
-    @move = ['rock','paper','scissors'].sample
+  def make_move(game)
+    @move = game.moves.sample
   end
 end
 
@@ -71,6 +71,10 @@ class Game
 end
 
 class RPS
+  def self.moves  
+    @moves = ['rock','paper','scissors']
+  end
+  
   def self.play_round(player1,player2)
     # Description: Plays a round of RPS and decides a winner. The players make a random move. The winner is given a point.
     #
@@ -81,9 +85,9 @@ class RPS
     # Returns:
     # Returns the player object that wins, or nil if it's a tie.
   
-    player1.make_move
+    player1.make_move(self)
     puts "#{player1.name} throws #{player1.move}"
-    player2.make_move
+    player2.make_move(self)
     puts "#{player2.name} throws #{player2.move}"
   
     winner = determine_winner(player1,player2)
