@@ -21,14 +21,16 @@ class Player
   end
   
   def make_move(game)
-    if self.name[0,2] == "AI"
-      @move = game.moves.sample
-    else
-      print "List of moves: ", game.moves, "\n"
-      puts "#{name} throws: "
-      @move = gets.chomp
-    end
-    
+    print "List of moves: ", game.moves, "\n"
+    puts "#{name} throws: "
+    @move = gets.chomp
+    puts "#{self.name} made a move!", ""
+  end
+end
+
+class AI < Player
+  def make_move(game)
+    @move = game.moves.sample
     puts "#{self.name} made a move!", ""
   end
 end
@@ -39,7 +41,15 @@ class Game
     # Params:
     # + p1: A player name string.
     # + p2: A player name string.
-    return Player.new(p1), Player.new(p2)
+    if p1[0,2] == "AI" && p2[0,2] == "AI"
+      return AI.new(p1), AI.new(p2)
+    elsif p1[0,2] == "AI"
+      return AI.new(p1), Player.new(p2)
+    elsif p2[0,2] == "AI"
+      return Player.new(p1), AI.new(p2)
+    else
+      return Player.new(p1), Player.new(p2)
+    end
   end
 
   def self.display_scores(*players)
@@ -62,7 +72,7 @@ class Game
   end
 
   def self.match(game,p1,p2,best_of)
-    best_of.odd? ? win_score = (best_of/2.to_f).ceil : win_score = ((best_of-1)/2.to_f).ceil
+    best_of.odd? ? win_score = (best_of / 2) + 1 : win_score = (best_of / 2) + 1
     
     if p1 == p2
       p1 = p1 + "_1"
