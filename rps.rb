@@ -25,9 +25,11 @@ class Player
       @move = game.moves.sample
     else
       print "List of moves: ", game.moves, "\n"
-      puts "Enter a move, #{name}: "
+      puts "#{name} throws: "
       @move = gets.chomp
     end
+    
+    puts "#{self.name} made a move!", ""
   end
 end
 
@@ -70,8 +72,11 @@ class Game
     player1, player2 = create_players(p1,p2)
   
     # Have the player1 and player2 objects play a round until one of them wins
+    round = 1
     until player1.score == win_score || player2.score == win_score
+      puts "Round #{round}!"
       game.play_round(player1,player2)
+      round += 1
     end  
   
     puts "Final scores:"
@@ -95,13 +100,12 @@ class RPS
     # Returns:
     # Returns the player object that wins, or nil if it's a tie.
   
-    player1.make_move(self)
-    puts "#{player1.name} throws #{player1.move}"
+    player1.make_move(self)    
     player2.make_move(self)
-    puts "#{player2.name} throws #{player2.move}"
   
     winner = determine_winner(player1,player2)
-  
+    
+    puts "#{player1.name} threw #{player1.move}. #{player2.name} threw #{player2.move}."
     puts winner ? "#{winner.name} wins the round!" : "Tie!"
     puts ""
   end
@@ -128,4 +132,4 @@ class RPS
   end
 end
 
-Game.match(RPS,"Joe","Sam",3)
+Game.match(RPS,"AI_Joe","AI_Sam",3)
