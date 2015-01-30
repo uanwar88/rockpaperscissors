@@ -21,17 +21,22 @@ class Player
   end
   
   def make_move(game)
-    @move = game.moves.sample
+    if self.name[0,2] == "AI"
+      @move = game.moves.sample
+    else
+      print "List of moves: ", game.moves, "\n"
+      puts "Enter a move, #{name}: "
+      @move = gets.chomp
+    end
   end
 end
 
 class Game
-  def self.create_players(p1,p2)
+  def self.create_players(p1, p2)
     # Description: Creates and returns two player objects.
     # Params:
     # + p1: A player name string.
     # + p2: A player name string.
-  
     return Player.new(p1), Player.new(p2)
   end
 
@@ -56,6 +61,11 @@ class Game
 
   def self.match(game,p1,p2,best_of)
     best_of.odd? ? win_score = (best_of/2.to_f).ceil : win_score = ((best_of-1)/2.to_f).ceil
+    
+    if p1 == p2
+      p1 == p1 + "1"
+      p2 == p2 + "2"
+    end
   
     player1, player2 = create_players(p1,p2)
   
@@ -118,4 +128,4 @@ class RPS
   end
 end
 
-Game.match(RPS,"Joe","Sam",5)
+Game.match(RPS,"Joe","Sam",3)
