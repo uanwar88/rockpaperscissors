@@ -63,8 +63,8 @@ class Game
     best_of.odd? ? win_score = (best_of/2.to_f).ceil : win_score = ((best_of-1)/2.to_f).ceil
     
     if p1 == p2
-      p1 == p1 + "1"
-      p2 == p2 + "2"
+      p1 = p1 + "_1"
+      p2 = p2 + "_2"
     end
   
     player1, player2 = create_players(p1,p2)
