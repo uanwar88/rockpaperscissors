@@ -21,7 +21,6 @@ class Player
   end
   
   def make_move(moves)
-    Outputter.put "List of moves: #{moves}\n"
     Outputter.put "#{name} throws: "
     @move = Moves_handler.verify(nil,moves)
     Outputter.put "#{self.name} made a move!\n"
@@ -75,21 +74,22 @@ class Game
     player1.score > player2.score ? Outputter.put("#{player1.name} wins the match!") : Outputter.put("#{player2.name} wins the match!")
   end
 
-  def self.match(game,file=0,p1,p2,best_of)
-    if file == 1
-      @file = File.open("game_output.txt", "w")
-    end
-    
-    best_of.odd? ? win_score = (best_of / 2) + 1 : win_score = (best_of / 2) + 1
-    
+  def self.match(game,file=0,p1,p2,best_of)    
     if p1 == p2
       p1 = p1 + "_1"
       p2 = p2 + "_2"
     end
   
     player1, player2 = create_players(p1,p2)
+    
+    #creates a new file for output if the argument is given
+    if file == 1
+      filename = "#{game.title}_#{player1.name}_#{player2.name}.txt"
+      @file = File.open(filename, "w")
+    end
   
     # Have the player1 and player2 objects play a round until one of them wins
+    best_of.odd? ? win_score = (best_of / 2) + 1 : win_score = (best_of / 2) + 1
     round = 1
     until player1.score == win_score || player2.score == win_score
       Outputter.put("Round #{round}!")
@@ -108,6 +108,10 @@ class Game
 end
 
 class RPS
+  def self.title
+    "RPS"
+  end
+  
   def self.moves  
     ['rock','paper','scissors']
   end
@@ -155,6 +159,10 @@ class RPS
 end
 
 class RPSLS
+  def self.title
+    "RPSLS"
+  end
+  
   def self.moves  
     ['rock','paper','scissors','lizard','spock']
   end
@@ -225,4 +233,4 @@ class Outputter
 end
   
 
-Game.match(RPSLS,"AI_Usman","AI_Sam",3)
+Game.match(RPSLS,1,"AI_Usman","AI_Sam",3)
