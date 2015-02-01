@@ -1,8 +1,4 @@
 class Game
-  def self.file
-    @file
-  end
-
   def self.display_scores(*players)
     # Description: Displays player scores.
     # Params:
@@ -28,30 +24,20 @@ class Game
     end
   end
 
-  def self.play(game,best_of,file,player1,player2)    
-    #creates a new file for output if the argument is given
-    if file == 1
-      filename = "#{game.title}_#{player1.name}vs#{player2.name}.txt"
-      @file = File.open(filename, "w")
-    end
-  
+  def self.play(game,best_of,player1,player2)    
     # Have the player1 and player2 objects play a round until one of them wins
     best_of.odd? ? win_score = (best_of / 2) + 1 : win_score = (best_of / 2) + 1
-    round = 1
+    Outputter.put "Now playing #{game.title}!"
+    game.round = 1
     until player1.score == win_score || player2.score == win_score
-      Outputter.put("Round #{round}!")
       game.play_round(player1,player2)
-      round += 1
+      game.round += 1
     end  
   
     Outputter.put "Final scores:"
     display_scores(player1,player2)  
     winner, loser = display_match_winner(player1,player2)
     return winner, loser
-    
-    if Game.file
-      @file.close
-    end
   end
 end
 
@@ -67,9 +53,17 @@ class Moves_handler
 end
 
 class Outputter
+  def self.file
+    @file
+  end
+  
+  def self.file=(x)
+    @file = x
+  end
+  
   def self.put(string)
-    if Game.file
-      Game.file.puts string
+    if @file
+      @file.puts string
       puts string
     else
       puts string

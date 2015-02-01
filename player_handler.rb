@@ -21,7 +21,7 @@ class Player
   end
   
   def make_move(moves)
-    Outputter.put "#{name} throws: "
+    Outputter.put "#{name} moves: "
     @move = Moves_handler.verify(nil,moves)
     Outputter.put "#{self.name} made a move!\n"
   end

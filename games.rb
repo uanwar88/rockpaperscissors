@@ -1,10 +1,20 @@
 class RPS
+  @moves = ['rock','paper','scissors']
+  
+  def self.round
+    @round
+  end
+  
+  def self.round=(x)
+    @round = x
+  end    
+  
   def self.title
     "RPS"
   end
   
   def self.moves  
-    ['rock','paper','scissors']
+    @moves
   end
   
   def self.play_round(player1,player2)
@@ -16,7 +26,7 @@ class RPS
     #
     # Returns:
     # Returns the player object that wins, or nil if it's a tie.
-  
+    Outputter.put "Round #{@round}!"
     player1.make_move(self.moves)    
     player2.make_move(self.moves)
   
@@ -50,12 +60,14 @@ class RPS
 end
 
 class RPSLS
+  @moves = ['rock','paper','scissors','lizard','spock']
+  
   def self.title
     "RPSLS"
   end
   
   def self.moves  
-    ['rock','paper','scissors','lizard','spock']
+    @moves
   end
   
   def self.play_round(player1,player2)
@@ -100,3 +112,44 @@ class RPSLS
     end
   end
 end
+
+class TTT
+  @moves = [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
+  @board = Array.new(3) { Array.new (3) {"_"} }
+  
+  def self.round
+    @round
+  end
+  
+  def self.round=(x)
+    @round = x
+  end  
+  
+  def self.title
+    "TTT"
+  end
+  
+  def self.moves
+    @moves
+  end
+  
+  def check_board
+  end
+  
+  def self.play_round(player1,player2)
+    puts "Here's the board:"
+    print "#{@board[0]} \n"
+    print "#{@board[1]} \n"
+    print "#{@board[2]} \n"
+    
+    puts "Available moves: "
+    @moves.each { |i| print "#{i}\n" }
+    player1.make_move(@moves)
+    puts "#{player1.name} chose #{player1.move}!", ""
+    @moves.delete(player1.move)  
+    @board[player1.move[0]][player1.move[1]] = "o"
+    
+    
+  end  
+end
+
