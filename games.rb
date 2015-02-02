@@ -126,39 +126,79 @@ class TTT
     "TTT"
   end
   
+  def self.show_board
+    Outputter.put "Here's the board:"
+    Outputter.put "#{@board[0]}"
+    Outputter.put "#{@board[1]}"
+    Outputter.put "#{@board[2]}"
+    Outputter.put ""
+  end
+  
   def self.play_turn(player,num=0)
-    puts "Here's the board:"
-    print "#{@board[0]} \n"
-    print "#{@board[1]} \n"
-    print "#{@board[2]} \n"
-    
-    puts "It's #{player.name}'s turn!"
-    puts "Available moves: "
-    @moves.each { |i| print "#{i}\n" }
-    
+    show_board
+
+    Outputter.put "It's #{player.name}'s turn!"
+    Outputter.put "Available moves: "
+    @moves.each { |i| Outputter.put "#{i}" }
+
     #sends the available moves list to player, who makes a move
     player.make_move(@moves)
-    puts "#{player.name} chose #{player.move}!", ""
-    
+    Outputter.put "#{player.name} chose #{player.move}!"
+    Outputter.put ""
+
     #deletes chosen move from available moves list and places move on board
     @moves.delete(player.move)
-    if num == 1  
+    if num == 1
       @board[player.move[0]][player.move[1]] = "X"
     else
       @board[player.move[0]][player.move[1]] = "O"
     end
   end
   
-  def self.check_board(player)
-    if num == 1
-      player.score += 1
-      return 0
-      if player.score == 3
-        return 1
+  def self.check_board(player,str)
+    #assemble three in a row for checking
+    row = Array.new(3, "")
+    col = Array.new(3, "")
+    diag1 = [""]
+    diag2 = [""]
+    for x in 0..2
+      for y in 0..2
+        row[x] += @board[x][y]
+        col[x] += @board[y][x]
       end
-    else
+      diag1[0] += @board[x][x]
+    end
+    diag2[0] = @board[0][2]+@board[1][1]+@board[2][0]
+    
+    #search for three in a row
+    match_found = 0
+    row.each {|x| 
+      if x == str * 3
+        match_found = 1
+      end
+    }
+    col.each {|x| 
+      if x == str * 3
+        match_found = 1
+      end
+    }
+    if diag1[0] == str * 3 || diag2[0] == str * 3
+      match_found = 1
+    end
+    
+    #handle a winning situation
+    if match_found == 1
+      show_board
+      Outputter.put "#{player.name} got three in a row! #{player.name} wins the round!"
+      Outputter.put ""
       player.score += 1
-      return 1
+      win = 1
+      winner = player
+      return win, winner
+    else
+      win = 0
+      winner = nil
+      return win, winner
     end
   end
   
@@ -170,12 +210,12 @@ class TTT
    
     #sets dummy 'win' variable
     win = 0    
-    until win == 1
-      play_turn(player1)
-      win, winner = check_board(player1)
-      if win == 0
+    until win == 1 || @moves == []
+      play_turn(player1,1)
+      win, winner = check_board(player1,"X")
+      if win == 0 && @moves != []
         play_turn(player2)
-        win, winner = check_board(player2)
+        win, winner = check_board(player2,"O")
       end
     end
   end  

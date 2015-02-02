@@ -46,6 +46,12 @@ class Moves_handler
     loop do
       print "Input a valid move from the list: #{moves}\n"
       move = gets.chomp
+      if move[0] == "["
+        move.delete! "[]"
+        temp = move.split(',')
+        move = []
+        move[0], move[1] = temp[0].to_i, temp[1].to_i
+      end
       break if moves.index(move)
     end
     return move

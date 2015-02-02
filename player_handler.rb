@@ -21,16 +21,16 @@ class Player
   end
   
   def make_move(moves)
-    Outputter.put "#{name} moves: "
+    Outputter.put "It's #{name}'s turn to move!"
     @move = Moves_handler.verify(nil,moves)
-    Outputter.put "#{self.name} made a move!\n"
+    Outputter.put "#{name} made a move!\n"
   end
 end
 
 class AI < Player
   def make_move(moves)
     @move = moves.sample
-    Outputter.put "#{self.name} made a move!\n"
+    Outputter.put "#{name} made a move!\n"
   end
 end
 
