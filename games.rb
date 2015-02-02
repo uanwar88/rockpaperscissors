@@ -13,9 +13,9 @@ class RPS
     "RPS"
   end
   
-  def self.moves  
-    @moves
-  end
+  # def self.moves
+  #   @moves
+  # end
   
   def self.play_round(player1,player2)
     # Description: Plays a round of RPS and decides a winner. The players make a random move. The winner is given a point.
@@ -27,8 +27,8 @@ class RPS
     # Returns:
     # Returns the player object that wins, or nil if it's a tie.
     Outputter.put "Round #{@round}!"
-    player1.make_move(self.moves)    
-    player2.make_move(self.moves)
+    player1.make_move(@moves)    
+    player2.make_move(@moves)
   
     winner = determine_winner(player1,player2)
     
@@ -66,9 +66,9 @@ class RPSLS
     "RPSLS"
   end
   
-  def self.moves  
-    @moves
-  end
+  # def self.moves
+  #   @moves
+  # end
   
   def self.play_round(player1,player2)
     # Description: Plays a round of RPS and decides a winner. The players make a random move. The winner is given a point.
@@ -80,8 +80,8 @@ class RPSLS
     # Returns:
     # Returns the player object that wins, or nil if it's a tie.
     Outputter.put "Round #{@round}!"
-    player1.make_move(self.moves)    
-    player2.make_move(self.moves)
+    player1.make_move(@moves)    
+    player2.make_move(@moves)
   
     winner = determine_winner(player1,player2)
     
@@ -134,7 +134,7 @@ class TTT
     Outputter.put ""
   end
   
-  def self.play_turn(player,num=0)
+  def self.play_turn(player,player_num=0)
     show_board
 
     Outputter.put "Available moves: "
@@ -147,7 +147,7 @@ class TTT
 
     #deletes chosen move from available moves list and places move on board
     @moves.delete(player.move)
-    if num == 1
+    if player_num == 1
       @board[player.move[0]][player.move[1]] = "X"
     else
       @board[player.move[0]][player.move[1]] = "O"
@@ -212,13 +212,15 @@ class TTT
     until win == 1 || @moves == []
       play_turn(player1,1)
       win, winner = check_board(player1,"X")
-      if win == 0 && @moves == []
-        Outputter.put "It looks like nobody got three in a row! Tie game!"
-        Outputter.put ""
-      end
-      if win == 0 && @moves != []
-        play_turn(player2)
-        win, winner = check_board(player2,"O")
+      if win == 0
+        if @moves == []
+          Outputter.put "It looks like nobody got three in a row! Tie game!"
+          Outputter.put ""
+        end
+        if @moves != []
+          play_turn(player2)
+          win, winner = check_board(player2,"O")
+        end
       end
     end
   end  

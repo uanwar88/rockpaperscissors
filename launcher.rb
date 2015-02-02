@@ -38,6 +38,6 @@ end
 
 #Launcher.game(RPS,3,0,"AI_Usman","AI_Sam")
 
-#Launcher.game(RPS,3,1,'AI_Usman','AI_Sam','AI_John','AI_Mark','AI_Joe')
+#Launcher.tournament(RPS,3,0,'AI_Usman','AI_Sam','AI_John','AI_Mark','AI_Joe')
 
 Launcher.game(TTT,3,0,'Usman','Sam')

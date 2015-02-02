@@ -26,7 +26,7 @@ class Game
 
   def self.play(game,best_of,player1,player2)    
     # Have the player1 and player2 objects play a round until one of them wins
-    best_of.odd? ? win_score = (best_of / 2) + 1 : win_score = (best_of / 2) + 1
+    win_score = (best_of / 2) + 1
     Outputter.put "Now playing #{game.title}!"
     game.round = 1
     until player1.score == win_score || player2.score == win_score

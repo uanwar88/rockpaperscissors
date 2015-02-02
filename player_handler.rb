@@ -36,18 +36,22 @@ end
 
 class Create_Players  
   def self.create(players)
-    # Description: Creates and returns two player objects.
+    # Description: 
+    # Creates and returns player objects.
     # Params:
     # + players: An array of player strings.
-
+    
+    #appends player id to player name
     player_id = 1
     for i in 0..players.length-1
       players[i] = players[i] + "_#{player_id}"
       player_id += 1
     end
     
+    #creates an array to store new player objects
     player_objects = []
     
+    #creates an AI player if "AI" is first 2 letters of player name, otherwise creates regular player
     players.each do |x| 
       if x[0,2] == "AI"
         player_objects << AI.new(x)
