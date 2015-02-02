@@ -38,8 +38,8 @@ class Create_Players
   def self.create(players)
     # Description: Creates and returns two player objects.
     # Params:
-    # + p1: A player name string.
-    # + p2: A player name string.
+    # + players: An array of player strings.
+
     player_id = 1
     for i in 0..players.length-1
       players[i] = players[i] + "_#{player_id}"

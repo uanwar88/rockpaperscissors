@@ -137,7 +137,6 @@ class TTT
   def self.play_turn(player,num=0)
     show_board
 
-    Outputter.put "It's #{player.name}'s turn!"
     Outputter.put "Available moves: "
     @moves.each { |i| Outputter.put "#{i}" }
 
@@ -213,6 +212,10 @@ class TTT
     until win == 1 || @moves == []
       play_turn(player1,1)
       win, winner = check_board(player1,"X")
+      if win == 0 && @moves == []
+        Outputter.put "It looks like nobody got three in a row! Tie game!"
+        Outputter.put ""
+      end
       if win == 0 && @moves != []
         play_turn(player2)
         win, winner = check_board(player2,"O")
