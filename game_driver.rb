@@ -44,7 +44,7 @@ end
 class Moves_handler
   def self.verify(move,moves)
     loop do
-      print "Select a valid move from the list: #{moves}\n"
+      print "Input a valid move from the list: #{moves}\n"
       move = gets.chomp
       break if moves.index(move)
     end

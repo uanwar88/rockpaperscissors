@@ -79,7 +79,7 @@ class RPSLS
     #
     # Returns:
     # Returns the player object that wins, or nil if it's a tie.
-  
+    Outputter.put "Round #{@round}!"
     player1.make_move(self.moves)    
     player2.make_move(self.moves)
   
@@ -114,9 +114,6 @@ class RPSLS
 end
 
 class TTT
-  @moves = [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
-  @board = Array.new(3) { Array.new (3) {"_"} }
-  
   def self.round
     @round
   end
@@ -129,27 +126,58 @@ class TTT
     "TTT"
   end
   
-  def self.moves
-    @moves
-  end
-  
-  def check_board
-  end
-  
-  def self.play_round(player1,player2)
+  def self.play_turn(player,num=0)
     puts "Here's the board:"
     print "#{@board[0]} \n"
     print "#{@board[1]} \n"
     print "#{@board[2]} \n"
     
+    puts "It's #{player.name}'s turn!"
     puts "Available moves: "
     @moves.each { |i| print "#{i}\n" }
-    player1.make_move(@moves)
-    puts "#{player1.name} chose #{player1.move}!", ""
-    @moves.delete(player1.move)  
-    @board[player1.move[0]][player1.move[1]] = "o"
     
+    #sends the available moves list to player, who makes a move
+    player.make_move(@moves)
+    puts "#{player.name} chose #{player.move}!", ""
     
+    #deletes chosen move from available moves list and places move on board
+    @moves.delete(player.move)
+    if num == 1  
+      @board[player.move[0]][player.move[1]] = "X"
+    else
+      @board[player.move[0]][player.move[1]] = "O"
+    end
+  end
+  
+  def self.check_board(player)
+    if num == 1
+      player.score += 1
+      return 0
+      if player.score == 3
+        return 1
+      end
+    else
+      player.score += 1
+      return 1
+    end
+  end
+  
+  def self.play_round(player1,player2)
+    #set new board and available moves list at beginning of round
+    @moves = [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
+    @board = Array.new(3) { Array.new (3) {"_"} }
+    Outputter.put "Round #{@round}!"
+   
+    #sets dummy 'win' variable
+    win = 0    
+    until win == 1
+      play_turn(player1)
+      win, winner = check_board(player1)
+      if win == 0
+        play_turn(player2)
+        win, winner = check_board(player2)
+      end
+    end
   end  
 end
 
