@@ -8,9 +8,7 @@ class Launcher
   def self.tournament(game,best_of,req_file,*list_players)    
     players = Create_Players.create(list_players)
     
-    if req_file == 1
-      Outputter.open(1,game.title)
-    end
+    Outputter.open(req_file,1,game.title)
     
     Tournament.play(game,best_of,players)
     
@@ -20,9 +18,7 @@ class Launcher
   def self.game(game,best_of,req_file,*list_players)    
     players = Create_Players.create(list_players)
         
-    if req_file == 1
-      Outputter.open(0,game.title,players[0].name,players[1].name)
-    end
+    Outputter.open(req_file,0,game.title,players[0].name,players[1].name)
     
     Game.play(game,best_of,players[0],players[1])
     

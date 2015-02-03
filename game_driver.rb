@@ -59,13 +59,15 @@ class Moves_handler
 end
 
 class Outputter
-  def self.open(tournament,title,p1_name="",p2_name="")
-    if tournament == 1
-      filename = "#{title}_Tournament_#{rand(100)}.txt"
-    else
-      filename = "#{title}_#{p1_name}vs#{p2_name}.txt"
+  def self.open(req_file,tournament,title,p1_name="",p2_name="")
+    if req_file == 1
+      if tournament == 1
+        filename = "#{title}_Tournament_#{rand(100)}.txt"
+      else
+        filename = "#{title}_#{p1_name}vs#{p2_name}.txt"
+      end
+      @file = File.open(filename, "w")
     end
-    @file = File.open(filename, "w")
   end
   
   def self.close
